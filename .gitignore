@@ -16,3 +16,5 @@ AGENTS.md
 PROJECT_STATUS.md
 docs/tasks.md
 docs/acceptance.md
+ai-config-sync/device.json
+ai-config-sync/*.local.json

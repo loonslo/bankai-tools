@@ -10,14 +10,15 @@ requires-python = ">=3.14"
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest>=8.4", "ruff>=0.14"]
+dev = ["pytest>=8.4", "ruff>=0.14", "tomlkit==0.13.3"]
+config-sync = ["tomlkit==0.13.3"]
 
 [project.scripts]
 bankai = "bankai_tools.__main__:main"
 
 [tool.setuptools.packages.find]
-where = ["tools/x-follow"]
-include = ["bankai_tools*"]
+where = ["tools/x-follow", "ai-config-sync"]
+include = ["bankai_tools*", "ai_config_sync*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

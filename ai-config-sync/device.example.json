@@ -1,0 +1,8 @@
+{
+  "state_dir": "~/.bankai-tools/ai-config-sync",
+  "codex": "~/.codex",
+  "claude": "~/.claude",
+  "codex_keys": [],
+  "claude_keys": [],
+  "topics": ["instructions", "principles", "engineering", "python", "langgraph", "rag", "security"]
+}

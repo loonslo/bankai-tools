@@ -1,17 +1,21 @@
 # bankai-tools
 
-个人轻量工具箱。一个仓库收纳独立小工具与 Skill，Python 3.14+，无 Python 运行时依赖。
+个人轻量工具箱。一个仓库收纳独立小工具与 Skill，Python 3.14+，按需安装各工具的可选依赖。
 
 | 入口 | 功能 |
 | --- | --- |
 | [privacy-review](skills/privacy-review/SKILL.md) | 自包含的隐私审核 Skill，检查指定文件、记忆／聊天导出、Git 暂存区和拟推送历史，返回脱敏建议 |
 | [X 关系工具](tools/x-follow/README.md) | 调用 twitterapi.io 分页获取关注／粉丝，计算互关、我关注但未回关、仅关注我的账号，支持 JSON／CSV |
+| [AI 配置同步](ai-config-sync/README.md) | 共享规则与选定设置部署，选择性备份／恢复、本地事务及撤销 |
 
 ## 目录分类
 
 ```text
 skills/                 # 自包含 Skill
   privacy-review/
+ai-config-sync/         # 个人配置源及轻量同步工具
+  common/
+  run.py
 tools/                  # 独立小工具
   x-follow/
     run.py              # 无需安装的运行入口
@@ -22,6 +26,19 @@ docs/                   # 共用说明
 ```
 
 新增 Skill 放入 `skills/<skill-name>/`，新增小工具放入 `tools/<tool-name>/`。
+`ai-config-sync/` 按指定位置维护独立的配置源与命令入口，属于本仓库模块。
+
+## AI 配置同步
+
+填写该目录的本机配置文件后，先预览再应用：
+
+```powershell
+py -3.14 -B ai-config-sync/run.py --device ai-config-sync/device.json sync
+py -3.14 -B ai-config-sync/run.py --device ai-config-sync/device.json sync --apply
+```
+
+只部署规则时无需额外依赖；更新 Codex TOML 字段时使用 `tomlkit`。
+选择性备份、恢复、冲突处理与撤销见 [使用说明](ai-config-sync/README.md)。不写入真实配置的验证与实际跨机验收分开记录。
 
 ## X 关系工具
 
@@ -55,9 +72,10 @@ py -3.14 -B skills/privacy-review/scripts/review.py files --repo "<待检查项�
 ## 范围与来源
 
 提取自 [agent-privacy-guard](https://github.com/loonslo/agent-privacy-guard) 与
-[x-follow-anlysis](https://github.com/loonslo/x-follow-anlysis)，来源版本和迁移边界见
+[x-follow-anlysis](https://github.com/loonslo/x-follow-anlysis)，配置能力另提取自
+[ai-config](https://github.com/loonslo/ai-config)，来源版本和迁移边界见
 [docs/migration.md](docs/migration.md)。保留核心规则、范围约束、只读 API 和关系计算；
-不包含网页、浏览器采集、SQLite、多账号、邮件、服务器、MCP、hook、语义模型或打包发布系统。
+不包含网页、桌面应用、浏览器采集、SQLite、多账号、邮件、服务器、MCP、hook、语义模型或打包发布系统。
 旧仓库历史和运行数据不复制。
 
 X 客户端衍生代码保留原 MIT 声明，见 [LICENSE](LICENSE)。该声明来自 X 项目，

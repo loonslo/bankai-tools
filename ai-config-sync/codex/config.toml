@@ -1,0 +1,10 @@
+# Shared Codex defaults.
+# This file is a versioned template. It intentionally contains no secrets,
+# machine-specific paths, authentication tokens, session state, providers,
+# notifications, or plugin state.
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+web_search = "cached"
+model_reasoning_effort = "high"
+project_doc_max_bytes = 65536

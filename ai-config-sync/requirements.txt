@@ -1,0 +1,2 @@
+# Needed only when selected Codex TOML settings are read or written.
+tomlkit==0.13.3
