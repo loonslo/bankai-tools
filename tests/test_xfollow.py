@@ -1,12 +1,36 @@
 import csv
 import io
 import json
+from pathlib import Path
+import subprocess
+import sys
 from urllib.error import HTTPError, URLError
 
 import pytest
 
 from bankai_tools.twitterapi import ApiError, NoRedirect, TwitterApiClient
 from bankai_tools.xfollow import analyze, collect, main, write_output
+
+
+def test_source_entry_runs_offline_outside_repository(tmp_path):
+    script = Path(__file__).resolve().parents[1] / "tools/x-follow/run.py"
+    snapshot = tmp_path / "snapshot.json"
+    snapshot.write_text(
+        json.dumps({r: {"complete": True, "users": []} for r in ("following", "followers")}),
+        encoding="utf-8",
+    )
+    proc = subprocess.run(
+        [sys.executable, "-B", str(script), "analyze", str(snapshot), "--output", "result.json"],
+        cwd=tmp_path,
+        capture_output=True,
+        check=True,
+    )
+    assert json.loads(proc.stdout)["complete"]
+    assert json.loads((tmp_path / "result.json").read_text(encoding="utf-8")) == {
+        "mutual": [],
+        "not_following_back": [],
+        "fans_only": [],
+    }
 
 
 def user(number, username="alice", **extra):

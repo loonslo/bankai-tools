@@ -16,6 +16,7 @@ dev = ["pytest>=8.4", "ruff>=0.14"]
 bankai = "bankai_tools.__main__:main"
 
 [tool.setuptools.packages.find]
+where = ["tools/x-follow"]
 include = ["bankai_tools*"]
 
 [tool.pytest.ini_options]
