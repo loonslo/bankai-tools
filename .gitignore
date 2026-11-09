@@ -3,6 +3,7 @@ __pycache__/
 .venv/
 .pytest_cache/
 .ruff_cache/
+.cache/
 *.egg-info/
 build/
 dist/
@@ -14,7 +15,7 @@ data/
 *.key
 AGENTS.md
 PROJECT_STATUS.md
-docs/tasks.md
-docs/acceptance.md
-ai-config-sync/device.json
-ai-config-sync/*.local.json
+**/docs/tasks.md
+**/docs/acceptance.md
+tools/ai-config-sync/device.json
+tools/ai-config-sync/*.local.json

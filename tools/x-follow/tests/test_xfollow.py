@@ -13,7 +13,7 @@ from bankai_tools.xfollow import analyze, collect, main, write_output
 
 
 def test_source_entry_runs_offline_outside_repository(tmp_path):
-    script = Path(__file__).resolve().parents[1] / "tools/x-follow/run.py"
+    script = Path(__file__).resolve().parents[1] / "run.py"
     snapshot = tmp_path / "snapshot.json"
     snapshot.write_text(
         json.dumps({r: {"complete": True, "users": []} for r in ("following", "followers")}),

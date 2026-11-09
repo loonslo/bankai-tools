@@ -322,7 +322,7 @@ def test_lock_and_corrupted_backup_refuse_writes(environment):
 
 def test_cli_outside_repository_and_default_preview(environment):
     source, file, raw = environment
-    script = Path(__file__).resolve().parents[1] / "ai-config-sync/run.py"
+    script = Path(__file__).resolve().parents[1] / "run.py"
     args = [
         sys.executable,
         "-B",
@@ -343,7 +343,7 @@ def test_cli_outside_repository_and_default_preview(environment):
 
 def test_bundled_rules_and_templates_work_with_isolated_device(environment):
     source, file, raw = environment
-    source = Path(__file__).resolve().parents[1] / "ai-config-sync"
+    source = Path(__file__).resolve().parents[1]
     raw.update(codex_keys=["model_reasoning_effort"], claude_keys=["autoMemoryEnabled"])
     device = configure(file, raw)
     apply_plan(device, sync_plan(device, source))

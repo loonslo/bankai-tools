@@ -7,7 +7,7 @@ Python 3.14+。规则、JSON 设置和备份操作使用标准库；更新选定
 复用原项目依赖 `tomlkit==0.13.3`，以保留目标文件里的注释和其他配置：
 
 ```powershell
-py -3.14 -m pip install -r ai-config-sync/requirements.txt
+py -3.14 -m pip install -r tools/ai-config-sync/requirements.txt
 ```
 
 ## 配置来源与本机目标
@@ -46,35 +46,35 @@ Codex 可选字段：`approval_policy`、`sandbox_mode`、`web_search`、`model_
 
 ```powershell
 # 先复制模板并填写本机路径
-Copy-Item ai-config-sync/device.example.json ai-config-sync/device.json
+Copy-Item tools/ai-config-sync/device.example.json tools/ai-config-sync/device.json
 
 # 预览，然后部署规则和选定设置
-py -3.14 -B ai-config-sync/run.py --device ai-config-sync/device.json sync
-py -3.14 -B ai-config-sync/run.py --device ai-config-sync/device.json sync --apply
+py -3.14 -B tools/ai-config-sync/run.py --device tools/ai-config-sync/device.json sync
+py -3.14 -B tools/ai-config-sync/run.py --device tools/ai-config-sync/device.json sync --apply
 
 # 查看本机操作记录，用返回的 ID 预览／执行撤销
-py -3.14 -B ai-config-sync/run.py --device ai-config-sync/device.json history
-py -3.14 -B ai-config-sync/run.py --device ai-config-sync/device.json undo <operation-id>
-py -3.14 -B ai-config-sync/run.py --device ai-config-sync/device.json undo <operation-id> --apply
+py -3.14 -B tools/ai-config-sync/run.py --device tools/ai-config-sync/device.json history
+py -3.14 -B tools/ai-config-sync/run.py --device tools/ai-config-sync/device.json undo <operation-id>
+py -3.14 -B tools/ai-config-sync/run.py --device tools/ai-config-sync/device.json undo <operation-id> --apply
 
 # 选择性导出；默认预览，加 --apply 才生成 ZIP
-py -3.14 -B ai-config-sync/run.py --device ai-config-sync/device.json backup --output data/config-backup.zip
-py -3.14 -B ai-config-sync/run.py --device ai-config-sync/device.json backup --output data/config-backup.zip --apply
+py -3.14 -B tools/ai-config-sync/run.py --device tools/ai-config-sync/device.json backup --output data/config-backup.zip
+py -3.14 -B tools/ai-config-sync/run.py --device tools/ai-config-sync/device.json backup --output data/config-backup.zip --apply
 
 # 在另一设备填写其 device.json，再预览／恢复
-py -3.14 -B ai-config-sync/run.py --device ai-config-sync/device.json restore data/config-backup.zip
-py -3.14 -B ai-config-sync/run.py --device ai-config-sync/device.json restore data/config-backup.zip --apply
+py -3.14 -B tools/ai-config-sync/run.py --device tools/ai-config-sync/device.json restore data/config-backup.zip
+py -3.14 -B tools/ai-config-sync/run.py --device tools/ai-config-sync/device.json restore data/config-backup.zip --apply
 
 # 发现中断事务时先检查，再显式回滚
-py -3.14 -B ai-config-sync/run.py --device ai-config-sync/device.json recover
-py -3.14 -B ai-config-sync/run.py --device ai-config-sync/device.json recover --apply
+py -3.14 -B tools/ai-config-sync/run.py --device tools/ai-config-sync/device.json recover
+py -3.14 -B tools/ai-config-sync/run.py --device tools/ai-config-sync/device.json recover --apply
 ```
 
-安装本仓库后也可使用统一命令。安装包只包含代码，规则源仍由源码目录维护，安装模式应显式传入配置源：
+在本工具目录独立安装后可使用 `ai-config-sync` 命令。安装包只包含代码，规则源仍由源码目录维护，安装模式应显式传入配置源：
 
 ```powershell
 py -3.14 -m pip install -e ".[config-sync]"
-bankai ai-config-sync --device "<本机device.json绝对路径>" sync --source "<仓库绝对路径>/ai-config-sync"
+ai-config-sync --device "<本机device.json绝对路径>" sync --source "<仓库绝对路径>/tools/ai-config-sync"
 ```
 
 退出码：`0` 表示预览或操作成功，`2` 表示冲突、条件不满足或明确拒绝，`1` 表示其他失败。
@@ -108,3 +108,14 @@ ZIP 不覆盖已有文件，恢复时只映射到当前 `device.json` 的已声�
 使用新的独立状态目录，保留旧仓库、旧备份和原有部署作为历史恢复路径。
 文件落盘正确不代表助手已读取；需要在新会话中检查规则版本和实际行为。
 本次测试为 Windows 临时目录和合成内容，不代表真实跨机、macOS 或客户端加载已经验收。
+
+## 开发验证
+
+在本工具目录运行（需要 pytest、requirements.txt 中的 tomlkit）：
+
+```powershell
+py -3.14 -B -m pytest
+```
+
+`tests/`、`pytest.ini` 及导入配置均在本目录内，测试仅使用临时合成配置。
+来源见 [迁移说明](docs/migration.md)，本地任务与验收记录保存在本目录 `docs/` 下。

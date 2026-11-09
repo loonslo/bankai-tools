@@ -15,7 +15,7 @@ py -3.14 -B tools/x-follow/run.py analyze data/snapshot.json --format csv --outp
 ```
 
 输出路径相对于当前工作目录。推荐存放到仓库内被 Git 忽略的 `data/`。
-也可在仓库根目录 `py -3.14 -m pip install -e .`，之后使用 `bankai x-follow ...` 或
+也可在本工具目录 `py -3.14 -m pip install -e .`，之后使用 `x-follow ...`、`bankai x-follow ...` 或
 `py -3.14 -B -m bankai_tools x-follow ...`。
 
 分页按账号 ID 去重，默认每类上限 10000 人，请求间隔 5.2 秒，可用 `--max-items`、
@@ -26,3 +26,16 @@ py -3.14 -B tools/x-follow/run.py analyze data/snapshot.json --format csv --outp
 
 完整表示 API 分页完成，不表示与平台真实数据绝对一致；两个列表顺序采集，期间关系可能变化。
 快照和导出含个人信息，请自行控制分享范围。程序不发帖、点赞、私信、关注或取关。
+
+## 开发验证
+
+在本工具目录运行（需要 pytest）：
+
+```powershell
+py -3.14 -B -m pytest
+```
+
+`tests/`、`pytest.ini` 及导入配置均在本目录内；测试使用模拟 API，不产生付费请求。
+来源见 [迁移说明](docs/migration.md)，本地任务与验收记录保存在本目录 `docs/` 下。
+
+本工具保留来源项目的 [MIT 许可声明](LICENSE)，许可不扩展到仓库内其他工具或 Skill。

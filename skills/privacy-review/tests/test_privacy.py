@@ -76,7 +76,7 @@ def test_staged_history_and_skill_are_read_only(tmp_path, scanner):
     result = review_push_plan(str(tmp_path), [{"tip": "HEAD", "base": None}])
     assert result["review_complete"] and result["risk_level"] == "critical"
     assert result["scope"][0]["coverage"] == "all-tip-history"
-    script = Path(__file__).resolve().parents[1] / "skills/privacy-review/scripts/review.py"
+    script = Path(__file__).resolve().parents[1] / "scripts/review.py"
     proc = subprocess.run(
         [
             sys.executable,
@@ -98,7 +98,7 @@ def test_staged_history_and_skill_are_read_only(tmp_path, scanner):
 
 
 def test_skill_is_portable(tmp_path, scanner):
-    original = Path(__file__).resolve().parents[1] / "skills/privacy-review"
+    original = Path(__file__).resolve().parents[1]
     copied = tmp_path / "copied-skill"
     shutil.copytree(original, copied, ignore=shutil.ignore_patterns("__pycache__"))
     proc = subprocess.run(

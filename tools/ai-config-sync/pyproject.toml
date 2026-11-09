@@ -3,29 +3,27 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "bankai-tools"
+name = "bankai-ai-config-sync"
 version = "0.1.0"
-description = "Small personal tools and self-contained skills"
+description = "Local AI rules deployment and selected configuration backups"
 requires-python = ">=3.14"
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest>=8.4", "ruff>=0.14", "tomlkit==0.13.3"]
 config-sync = ["tomlkit==0.13.3"]
+dev = ["pytest>=8.4", "ruff>=0.14", "tomlkit==0.13.3"]
 
 [project.scripts]
-bankai = "bankai_tools.__main__:main"
+ai-config-sync = "ai_config_sync.cli:main"
 
 [tool.setuptools.packages.find]
-where = ["tools/x-follow", "ai-config-sync"]
-include = ["bankai_tools*", "ai_config_sync*"]
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
+where = ["."]
+include = ["ai_config_sync*"]
 
 [tool.ruff]
 target-version = "py314"
 line-length = 100
+cache-dir = ".cache/ruff"
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F"]
